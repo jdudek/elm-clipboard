@@ -7,14 +7,17 @@ import StartApp
 import Task exposing (Task, andThen, onError, succeed)
 
 import Clipboard
+import Timeout exposing (Action(TimedOut))
 
 type alias Model =
   { copied : Bool
+  , timeout : Timeout.Model
   }
 
 type Action
   = NoOp
   | ClipboardEvent Clipboard.Event
+  | Timeout Timeout.Action
 
 app =
   StartApp.start
@@ -42,12 +45,11 @@ clipboardActions =
   in
     Signal.map f clipboardEvents.signal
 
-timeout = 500
-
 init =
   let
     model =
       { copied = False
+      , timeout = Timeout.init
       }
 
     fx =
@@ -63,7 +65,22 @@ init =
 update action model =
   case action of
     ClipboardEvent e ->
-      ({ model | copied <- True }, Effects.none)
+      let
+        (tModel, tFx) = Timeout.start 1000
+
+        model' =
+          { model | copied = True, timeout = tModel }
+      in
+        (model', Effects.map Timeout tFx)
+
+    Timeout TimedOut ->
+      ({ model | copied = False }, Effects.none)
+
+    Timeout a ->
+      let
+        (tModel, tFx) = Timeout.update a model.timeout
+      in
+        ({ model | timeout = tModel }, Effects.map Timeout tFx)
 
     NoOp ->
       (model, Effects.none)
