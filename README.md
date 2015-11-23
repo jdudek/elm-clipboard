@@ -2,6 +2,7 @@
 
 Elm wrapper for [Clipboard.js](http://clipboardjs.com/).
 
+[Live demo](http://jdudek.github.io/elm-clipboard/).
 
 ## Installation
 
@@ -19,7 +20,7 @@ See [elm-hedley](https://github.com/Gizra/elm-hedley) for an example of using ve
 * Add `clipboardText string` attribute to any element.
 * You’re all set! Clicking the element will copy given string to clipboard.
 
-For more complex usage, see attached examples.
+For more complex usage, see attached [examples](http://jdudek.github.io/elm-clipboard/).
 
 
 ## Notes
