@@ -8,15 +8,18 @@ import Task exposing (Task)
 
 import Example.Copy as CopyExample
 import Example.Cut as CutExample
+import Example.Text as TextExample
 
 type alias Model =
   { copyExample : CopyExample.Model
   , cutExample : CutExample.Model
+  , textExample : TextExample.Model
   }
 
 type Action
   = CopyExample CopyExample.Action
   | CutExample CutExample.Action
+  | TextExample TextExample.Action
 
 app =
   StartApp.start
@@ -41,15 +44,20 @@ init =
     (m2, fx2) =
       CutExample.init
 
+    (m3, fx3) =
+      TextExample.init
+
     model =
       { copyExample = m1
       , cutExample = m2
+      , textExample = m3
       }
 
     fx =
       Effects.batch
         [ Effects.map CopyExample fx1
         , Effects.map CutExample fx2
+        , Effects.map TextExample fx3
         ]
   in
     (model, fx)
@@ -68,6 +76,12 @@ update action model =
       in
         ({ model | cutExample = m }, Effects.map CutExample fx)
 
+    TextExample a ->
+      let
+        (m, fx) = TextExample.update a model.textExample
+      in
+        ({ model | textExample = m }, Effects.map TextExample fx)
+
 view address model =
   div []
     [ h1 [] [text "elm-clipboard"]
@@ -78,5 +92,9 @@ view address model =
     , section []
       [ h1 [] [text "Cut text from another element"]
       , CutExample.view (Signal.forwardTo address CutExample) model.cutExample
+      ]
+    , section []
+      [ h1 [] [text "Copy text from attribute"]
+      , TextExample.view (Signal.forwardTo address TextExample) model.textExample
       ]
     ]

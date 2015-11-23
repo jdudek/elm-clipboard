@@ -20,6 +20,12 @@ clipboardTarget selector =
 
 {-| FIXME docs
 -}
+clipboardText : String -> Attribute
+clipboardText text =
+  attribute "data-clipboard-text" text
+
+{-| FIXME docs
+-}
 clipboardAction : Action -> Attribute
 clipboardAction action =
   let

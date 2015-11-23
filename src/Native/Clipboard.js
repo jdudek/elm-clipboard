@@ -19,7 +19,7 @@ Elm.Native.Clipboard.make = function(localRuntime) {
                 callback(Task.succeed(Utils.Tuple0));
             }
 
-            clipboard = new Clipboard('[data-clipboard-target]');
+            clipboard = new Clipboard('[data-clipboard-target], [data-clipboard-text]');
 
             clipboard.on('success', function (e) {
                 if (typeof e.trigger.onclipboardSuccess === 'function') {

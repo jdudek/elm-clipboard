@@ -60,7 +60,6 @@ update action model =
 view address model =
   let
     status = if model.copied then "Copied!" else ""
-
   in
     div []
       [ text "Install with:"
