@@ -72,7 +72,7 @@ view address model =
       , button
           [ clipboardTarget "#install-command"
           , clipboardAction Clipboard.Copy
-          , onClipboardSuccess (Signal.forwardTo address ClipboardEvent)
+          , onClipboardSuccess address ClipboardEvent
           ]
           [ text "Copy" ]
       , text status

@@ -56,7 +56,7 @@ view address model =
     , button
         [ clipboardTarget "#cut"
         , clipboardAction Clipboard.Cut
-        , onClipboardSuccess (Signal.forwardTo address ClipboardEvent)
+        , onClipboardSuccess address ClipboardEvent
         ]
         [ text "Cut" ]
     , button

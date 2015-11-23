@@ -27,8 +27,8 @@ clipboardAction action =
   in
     attribute "data-clipboard-action" actionName
 
-onClipboardSuccess address =
+onClipboardSuccess address toAction =
   on
     "clipboardSuccess"
     (Json.at ["text"] Json.string)
-    (\text -> Signal.message address text)
+    (\text -> Signal.message address (toAction text))
