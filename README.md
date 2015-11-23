@@ -1,15 +1,15 @@
 # elm-clipboard
 
-Elm wrapper for http://clipboardjs.com/.
+Elm wrapper for [Clipboard.js](http://clipboardjs.com/).
 
 
 ## Installation
 
 At the moment [Elm’s package directory](http://package.elm-lang.org/) requires manual review of libraries with native extensions and this library has not been submitted yet.
 
-Until there is a more elegant way, you need to manually download a copy of the library source code or use Git submodules. You may have a directory like `vendor` and adjust `source-directories` in `elm-package.json` of your project accordingly.
+Until there is a more elegant way, you need to manually download a copy of the library source code or use Git submodules. Create a directory like `vendor` and adjust `source-directories` in `elm-package.json` of your project accordingly.
 
-See [elm-hedley](https://github.com/Gizra/elm-hedley) for an example of using vendor packages.
+See [elm-hedley](https://github.com/Gizra/elm-hedley) for an example of using vendor packages with native extensions.
 
 
 ## Usage
@@ -17,7 +17,7 @@ See [elm-hedley](https://github.com/Gizra/elm-hedley) for an example of using ve
 * Import `Clipboard` and `Clipboard.Attributes`.
 * Pass the task returned from `Clipboard.initialize ()` as an [effect](http://package.elm-lang.org/packages/evancz/elm-effects/latest).
 * Add `clipboardText string` attribute to any element.
-* You’re all set!
+* You’re all set! Clicking the element will copy given string to clipboard.
 
 For more complex usage, see attached examples.
 
