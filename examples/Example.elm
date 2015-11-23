@@ -2,18 +2,21 @@ module Example where
 
 import Effects
 import Html exposing (Html, div, text, input, button, h1, section)
-import Html.Attributes exposing (attribute, id, type', value)
+import Html.Attributes
 import StartApp
 import Task exposing (Task)
 
 import Example.Copy as CopyExample
+import Example.Cut as CutExample
 
 type alias Model =
   { copyExample : CopyExample.Model
+  , cutExample : CutExample.Model
   }
 
 type Action
   = CopyExample CopyExample.Action
+  | CutExample CutExample.Action
 
 app =
   StartApp.start
@@ -32,9 +35,24 @@ port tasks =
 
 init =
   let
-    (m, fx) = CopyExample.init
+    (m1, fx1) =
+      CopyExample.init
+
+    (m2, fx2) =
+      CutExample.init
+
+    model =
+      { copyExample = m1
+      , cutExample = m2
+      }
+
+    fx =
+      Effects.batch
+        [ Effects.map CopyExample fx1
+        , Effects.map CutExample fx2
+        ]
   in
-    ({ copyExample = m }, Effects.map CopyExample fx)
+    (model, fx)
 
 update action model =
   case action of
@@ -44,11 +62,21 @@ update action model =
       in
         ({ model | copyExample = m }, Effects.map CopyExample fx)
 
+    CutExample a ->
+      let
+        (m, fx) = CutExample.update a model.cutExample
+      in
+        ({ model | cutExample = m }, Effects.map CutExample fx)
+
 view address model =
   div []
     [ h1 [] [text "elm-clipboard"]
     , section []
       [ h1 [] [text "Copy text from another element"]
       , CopyExample.view (Signal.forwardTo address CopyExample) model.copyExample
+      ]
+    , section []
+      [ h1 [] [text "Cut text from another element"]
+      , CutExample.view (Signal.forwardTo address CutExample) model.cutExample
       ]
     ]
