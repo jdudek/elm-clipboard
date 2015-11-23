@@ -1,8 +1,8 @@
 module Example.Copy where
 
 import Effects
-import Html exposing (Html, div, text, input, button)
-import Html.Attributes exposing (id, value)
+import Html exposing (Html, div, text, input, button, span)
+import Html.Attributes exposing (id, type', value, class)
 import Task exposing (Task, andThen, onError, succeed)
 
 import Clipboard
@@ -33,13 +33,35 @@ update action model =
       (model, Effects.none)
 
 view address model =
-  div []
-    [ text "Install with:"
-    , input
-        [ id "copy"
+  span [ class "input-group" ]
+    [ input
+        [ type' "text"
+        , id "copy"
+        , value sampleText
+        ] []
+    , span [ class "input-group-button" ]
+      [ button
+        [ clipboardTarget "#copy"
+        , class "btn"
+        ]
+        [ span [ class "octicon octicon-clippy" ] []
+        ]
+      ]
+    ]
+
+
+code = """
+sampleText = "elm package install evancz/elm-http 2.0.0"
+
+view address model =
+  span []
+    [ input
+        [ type' "text"
+        , id "copy"
         , value sampleText
         ] []
     , button
         [ clipboardTarget "#copy" ]
         [ text "Copy" ]
     ]
+"""

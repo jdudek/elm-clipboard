@@ -1,8 +1,8 @@
 module Example where
 
 import Effects
-import Html exposing (Html, div, text, input, button, h1, section)
-import Html.Attributes
+import Html exposing (Html, div, p, a, text, input, button, h1, h2, section, pre, code)
+import Html.Attributes exposing (class, href)
 import StartApp
 import Task exposing (Task)
 
@@ -90,22 +90,61 @@ update action model =
         ({ model | textExample = m }, Effects.map TextExample fx)
 
 view address model =
-  div []
-    [ h1 [] [text "elm-clipboard"]
-    , section []
-      [ h1 [] [text "Copy text from attribute"]
+  container
+    [ h1 [] [ text "elm-clipboard" ]
+    , p [class "lead"]
+      [ text "elm-clipboard is an "
+      , a [ href "http://elm-lang.org/"] [ text "Elm" ]
+      , text " wrapper for "
+      , a [ href "http://clipboardjs.com/"] [ text "Clipboard.js" ]
+      , text ". See the "
+      , a [ href "https://github.com/jdudek/elm-clipboard" ] [ text "README" ]
+      , text " file for more details."
+      ]
+    , div []
+      [ h2 [] [text "Copy text from attribute"]
+      , p []
+        [ sampleLink "Example/Text.elm" ]
       , TextExample.view (Signal.forwardTo address TextExample) model.textExample
+      , codeSample TextExample.code
       ]
     , section []
-      [ h1 [] [text "Event triggered after successful copying"]
+      [ h2 [] [text "Event triggered after successful copying"]
+      , p []
+        [ sampleLink "Example/Event.elm" ]
       , EventExample.view (Signal.forwardTo address EventExample) model.eventExample
       ]
     , section []
-      [ h1 [] [text "Copy text from another element"]
+      [ h2 [] [text "Copy text from another element"]
+      , p []
+        [ sampleLink "Example/Copy.elm" ]
       , CopyExample.view (Signal.forwardTo address CopyExample) model.copyExample
+      , codeSample CopyExample.code
       ]
     , section []
-      [ h1 [] [text "Cut text from another element"]
+      [ h2 [] [text "Cut text from another element"]
+      , p []
+        [ sampleLink "Example/Cut.elm" ]
       , CutExample.view (Signal.forwardTo address CutExample) model.cutExample
       ]
     ]
+
+container content =
+  div [ class "container" ]
+    [ div [ class "columns" ]
+      [ div [ class "three-fourths centered" ]
+        content
+      ]
+    ]
+
+codeSample string =
+  pre []
+    [ code [ class "elm" ]
+        [ text string ]
+    ]
+
+sampleLink file =
+  let
+    url = "https://github.com/jdudek/elm-clipboard/blob/master/examples/" ++ file
+  in
+    a [ href url ] [ text "Full example" ]

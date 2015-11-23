@@ -1,8 +1,8 @@
 module Example.Event where
 
 import Effects
-import Html exposing (Html, div, text, input, button)
-import Html.Attributes exposing (id, value)
+import Html exposing (Html, div, text, input, button, span)
+import Html.Attributes exposing (id, type', value, class)
 import Task exposing (Task, andThen, onError, succeed)
 
 import Clipboard
@@ -63,14 +63,18 @@ view address model =
   let
     status = if model.copied then "Copied!" else ""
   in
-    div []
-      [ text "Install with:"
-      , input
-          [ value sampleText ] []
-      , button
+    span [ class "input-group" ]
+      [ input
+          [ type' "text"
+          , value sampleText
+          ] []
+      , span [ class "input-group-button" ]
+        [ button
           [ clipboardText sampleText
           , onClipboardSuccess address ClipboardEvent
+          , class "btn"
           ]
-          [ text "Copy" ]
-      , text status
+          [ span [ class "octicon octicon-clippy" ] []
+          ]
+        ]
       ]

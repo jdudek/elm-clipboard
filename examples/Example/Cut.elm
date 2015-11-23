@@ -1,8 +1,8 @@
 module Example.Cut where
 
 import Effects
-import Html exposing (Html, div, text, input, button, h1, section)
-import Html.Attributes exposing (id, type', value)
+import Html exposing (Html, div, text, input, button, span)
+import Html.Attributes exposing (id, type', value, class)
 import Html.Events exposing (onClick)
 import Task exposing (Task, andThen, onError, succeed)
 
@@ -47,20 +47,24 @@ update action model =
 
 view address model =
   div []
-    [ text "Install with:"
-    , input
+    [ input
         [ type' "text"
         , id "cut"
         , value model.text
+        , class "input-block"
         ] []
-    , button
-        [ clipboardTarget "#cut"
-        , clipboardAction Clipboard.Cut
-        , onClipboardSuccess address ClipboardEvent
+    , div [ class "text-right" ]
+      [ div [ class "btn-group" ]
+        [ button
+            [ clipboardTarget "#cut"
+            , clipboardAction Clipboard.Cut
+            , onClipboardSuccess address ClipboardEvent
+            , class "btn"
+            ]
+            [ text "Cut" ]
+        , button
+            [ onClick address Reset, class "btn" ]
+            [ text "Reset" ]
         ]
-        [ text "Cut" ]
-    , button
-        [ onClick address Reset
-        ]
-        [ text "Reset" ]
+      ]
     ]

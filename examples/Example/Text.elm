@@ -1,8 +1,8 @@
 module Example.Text where
 
 import Effects
-import Html exposing (Html, div, text, input, button, h1, section)
-import Html.Attributes exposing (id, type', value)
+import Html exposing (Html, div, text, input, button, span)
+import Html.Attributes exposing (id, type', value, class)
 import Html.Events exposing (onClick)
 import Task exposing (Task, andThen, onError, succeed)
 
@@ -37,11 +37,30 @@ update action model =
       (model, Effects.none)
 
 view address model =
-  div []
-    [ text "Install with:"
-    , input
-        [ value sampleText ] []
+  span [ class "input-group" ]
+    [ input
+        [ type' "text", value sampleText ] []
+    , span [ class "input-group-button" ]
+      [ button
+        [ clipboardText sampleText
+        , class "btn"
+        ]
+        [ span [ class "octicon octicon-clippy" ] []
+        ]
+      ]
+    ]
+
+code = """
+sampleText = "elm package install evancz/elm-http 2.0.0"
+
+view address model =
+  span []
+    [ input
+        [ type' "text"
+        , value sampleText
+        ] []
     , button
         [ clipboardText sampleText ]
         [ text "Copy" ]
     ]
+"""
