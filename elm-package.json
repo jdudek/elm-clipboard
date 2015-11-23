@@ -1,8 +1,8 @@
 {
     "version": "1.0.0",
-    "summary": "A wrapper around Cliboard.js library",
+    "summary": "Copy text to user’s clipboard. A wrapper around Cliboard.js.",
     "repository": "https://github.com/jdudek/elm-clipboard.git",
-    "license": "BSD3",
+    "license": "MIT",
     "source-directories": [
         "src",
         "examples"
