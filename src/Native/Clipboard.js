@@ -8,17 +8,23 @@ Elm.Native.Clipboard.make = function(localRuntime) {
         return localRuntime.Native.Clipboard.values;
     }
 
-    var Signal = Elm.Native.Signal.make(localRuntime);
     var Task = Elm.Native.Task.make(localRuntime);
     var Utils = Elm.Native.Utils.make(localRuntime);
 
-    function initialize(selector, address){
-        var clipboard;
+    var clipboard;
+
+    function initialize(){
         return Task.asyncFunction(function(callback){
-            clipboard = clipboard || new Clipboard(selector);
+            if (clipboard) {
+                callback(Task.succeed(Utils.Tuple0));
+            }
+
+            clipboard = new Clipboard('[data-clipboard-target]');
 
             clipboard.on('success', function (e) {
-                Task.perform(address._0(e.text));
+                if (typeof e.trigger.onclipboardSuccess === 'function') {
+                    e.trigger.onclipboardSuccess(e);
+                }
             });
 
             callback(Task.succeed(Utils.Tuple0));
@@ -26,7 +32,7 @@ Elm.Native.Clipboard.make = function(localRuntime) {
     }
 
     localRuntime.Native.Clipboard.values = {
-        initialize: F2(initialize),
+        initialize: initialize,
     };
     return localRuntime.Native.Clipboard.values;
 };

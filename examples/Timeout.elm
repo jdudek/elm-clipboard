@@ -5,7 +5,7 @@ import Time exposing (Time)
 import Task exposing (Task, succeed)
 
 type alias Model =
-  { delay : Int
+  { delay : Float
   , setAt : Maybe Time
   }
 

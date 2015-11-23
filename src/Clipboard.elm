@@ -1,8 +1,8 @@
-module Clipboard (initialize, Event) where
+module Clipboard (initialize, Event, Action(..)) where
 
 {-| FIXME docs
 
-@docs initialize, Event
+@docs initialize, Event, Action
 -}
 
 import Task exposing (Task)
@@ -14,5 +14,9 @@ type alias Event = String
 
 {-| FIXME docs
 -}
-initialize : String -> Signal.Address Event -> Task x ()
+type Action = Copy | Cut
+
+{-| FIXME docs
+-}
+initialize : () -> Task x ()
 initialize = Native.Clipboard.initialize
