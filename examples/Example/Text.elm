@@ -38,8 +38,10 @@ update action model =
 
 view address model =
   div []
-    [ button
-        [ clipboardText sampleText
-        ]
-        [ text "Copy install command" ]
+    [ text "Install with:"
+    , input
+        [ value sampleText ] []
+    , button
+        [ clipboardText sampleText ]
+        [ text "Copy" ]
     ]

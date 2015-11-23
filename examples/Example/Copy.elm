@@ -1,30 +1,23 @@
 module Example.Copy where
 
 import Effects
-import Html exposing (Html, div, text, input, button, h1, section)
-import Html.Attributes exposing (attribute, id, type', value)
+import Html exposing (Html, div, text, input, button)
+import Html.Attributes exposing (id, value)
 import Task exposing (Task, andThen, onError, succeed)
 
 import Clipboard
-import Clipboard.Attributes exposing (..)
-import Timeout exposing (Action(TimedOut))
+import Clipboard.Attributes exposing (clipboardTarget)
 
-type alias Model =
-  { copied : Bool
-  , timeout : Timeout.Model
-  }
+type alias Model = ()
 
 type Action
   = NoOp
-  | ClipboardEvent Clipboard.Event
-  | Timeout Timeout.Action
+
+sampleText = "elm package install evancz/elm-http 2.0.0"
 
 init =
   let
-    model =
-      { copied = False
-      , timeout = Timeout.init
-      }
+    model = ()
 
     fx =
       Effects.task <|
@@ -36,43 +29,17 @@ init =
 
 update action model =
   case action of
-    ClipboardEvent e ->
-      let
-        (tModel, tFx) = Timeout.start 1000
-
-        model' =
-          { model | copied = True, timeout = tModel }
-      in
-        (model', Effects.map Timeout tFx)
-
-    Timeout TimedOut ->
-      ({ model | copied = False }, Effects.none)
-
-    Timeout a ->
-      let
-        (tModel, tFx) = Timeout.update a model.timeout
-      in
-        ({ model | timeout = tModel }, Effects.map Timeout tFx)
-
     NoOp ->
       (model, Effects.none)
 
 view address model =
-  let
-    status = if model.copied then "Copied!" else ""
-  in
-    div []
-      [ text "Install with:"
-      , input
-          [ type' "text"
-          , id "install-command"
-          , value "elm package install evancz/elm-http 2.0.0"
-          ] []
-      , button
-          [ clipboardTarget "#install-command"
-          , clipboardAction Clipboard.Copy
-          , onClipboardSuccess address ClipboardEvent
-          ]
-          [ text "Copy" ]
-      , text status
-      ]
+  div []
+    [ text "Install with:"
+    , input
+        [ id "copy"
+        , value sampleText
+        ] []
+    , button
+        [ clipboardTarget "#copy" ]
+        [ text "Copy" ]
+    ]
