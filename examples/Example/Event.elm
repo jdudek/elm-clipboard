@@ -16,7 +16,7 @@ type alias Model =
 
 type Action
   = NoOp
-  | ClipboardEvent Clipboard.Event
+  | ClipboardSuccess Clipboard.Success
   | Timeout Timeout.Action
 
 sampleText = "elm package install evancz/elm-http 2.0.0"
@@ -38,7 +38,7 @@ init =
 
 update action model =
   case action of
-    ClipboardEvent e ->
+    ClipboardSuccess e ->
       let
         (tModel, tFx) = Timeout.start 1000
 
@@ -71,7 +71,7 @@ view address model =
       , span [ class "input-group-button" ]
         [ button
           [ clipboardText sampleText
-          , onClipboardSuccess address ClipboardEvent
+          , onClipboardSuccess address ClipboardSuccess
           , class "btn"
           ]
           [ span [ class "octicon octicon-clippy" ] []

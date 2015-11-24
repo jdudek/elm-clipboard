@@ -15,7 +15,7 @@ type alias Model =
 
 type Action
   = NoOp
-  | ClipboardEvent Clipboard.Event
+  | ClipboardSuccess Clipboard.Success
   | Reset
 
 initialText = "elm package install evancz/elm-http 2.0.0"
@@ -36,7 +36,7 @@ init =
 
 update action model =
   case action of
-    ClipboardEvent e ->
+    ClipboardSuccess _ ->
       ({ model | text = "" }, Effects.none)
 
     Reset ->
@@ -58,7 +58,7 @@ view address model =
         [ button
             [ clipboardTarget "#cut"
             , clipboardAction Clipboard.Cut
-            , onClipboardSuccess address ClipboardEvent
+            , onClipboardSuccess address ClipboardSuccess
             , class "btn"
             ]
             [ text "Cut" ]

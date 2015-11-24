@@ -27,6 +27,12 @@ Elm.Native.Clipboard.make = function(localRuntime) {
                 }
             });
 
+            clipboard.on('error', function (e) {
+                if (typeof e.trigger.onclipboardError === 'function') {
+                    e.trigger.onclipboardError(e);
+                }
+            });
+
             callback(Task.succeed(Utils.Tuple0));
         });
     }
