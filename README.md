@@ -20,7 +20,61 @@ See [elm-hedley](https://github.com/Gizra/elm-hedley) for an example of using ve
 * Add `clipboardText string` attribute to any element.
 * You’re all set! Clicking the element will copy given string to clipboard.
 
-For more complex usage, see attached [examples](http://jdudek.github.io/elm-clipboard/).
+
+## Example
+
+Below is a minimal example. You can find more complex examples [here](http://jdudek.github.io/elm-clipboard/).
+
+```elm
+module Example where
+
+import Effects
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Task exposing (Task, andThen, onError, succeed)
+import StartApp
+
+import Clipboard
+import Clipboard.Attributes exposing (..)
+
+type Action = NoOp
+
+app =
+  StartApp.start
+    { init = init , view = view , update = update , inputs = [] }
+
+main =
+  app.html
+
+port tasks : Signal (Task Effects.Never ())
+port tasks =
+  app.tasks
+
+init =
+  let
+    model = ()
+
+    fx =
+      Effects.task <|
+        Clipboard.initialize ()
+        `andThen` (\_ -> succeed NoOp)
+        `onError` (\_ -> succeed NoOp)
+  in
+    (model, fx)
+
+update action model =
+  case action of
+    NoOp ->
+      (model, Effects.none)
+
+view address model =
+  span []
+    [ button
+        [ clipboardText "Text to copy" ]
+        [ text "Copy" ]
+    ]
+
+```
 
 
 ## Notes

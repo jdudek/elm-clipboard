@@ -3,18 +3,15 @@ module Example.Text where
 import Effects
 import Html exposing (Html, div, text, input, button, span)
 import Html.Attributes exposing (id, type', value, class)
-import Html.Events exposing (onClick)
 import Task exposing (Task, andThen, onError, succeed)
 
 import Clipboard
 import Clipboard.Attributes exposing (..)
 
 type alias Model =
-  { text : String
-  }
+  ()
 
-type Action
-  = NoOp
+type Action = NoOp
 
 sampleText = "elm package install evancz/elm-http 2.0.0"
 
