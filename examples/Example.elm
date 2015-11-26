@@ -110,7 +110,7 @@ view address model =
           ]
       , section []
           [ h2 [] [text "Copy text from another element"]
-          , p [] [ linkToSample "Example/Copy.elm" ]
+          , p [] [ linkToSample "Example/Target.elm" ]
           , TargetExample.view (forward TargetExample) model.targetExample
           , codeSample TargetExample.code
           ]
