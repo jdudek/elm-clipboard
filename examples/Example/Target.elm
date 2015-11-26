@@ -1,4 +1,4 @@
-module Example.Copy where
+module Example.Target where
 
 import Effects
 import Html exposing (Html, div, text, input, button, span)

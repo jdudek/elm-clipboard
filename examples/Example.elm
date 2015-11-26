@@ -6,23 +6,23 @@ import Html.Attributes exposing (class, href)
 import StartApp
 import Task exposing (Task)
 
-import Example.Copy as CopyExample
+import Example.Target as TargetExample
 import Example.Event as EventExample
 import Example.Cut as CutExample
 import Example.Text as TextExample
 
 type alias Model =
-  { copyExample  : CopyExample.Model
-  , eventExample : EventExample.Model
-  , cutExample   : CutExample.Model
-  , textExample  : TextExample.Model
+  { targetExample : TargetExample.Model
+  , eventExample  : EventExample.Model
+  , cutExample    : CutExample.Model
+  , textExample   : TextExample.Model
   }
 
 type Action
-  = CopyExample  CopyExample.Action
-  | EventExample EventExample.Action
-  | CutExample   CutExample.Action
-  | TextExample  TextExample.Action
+  = TargetExample TargetExample.Action
+  | EventExample  EventExample.Action
+  | CutExample    CutExample.Action
+  | TextExample   TextExample.Action
 
 app =
   StartApp.start
@@ -45,17 +45,17 @@ init =
       (model, Effects.map action fx)
 
     ((m1, fx1), (m2, fx2), (m3, fx3), (m4, fx4)) =
-      ( CopyExample.init  |> mapFx CopyExample
-      , EventExample.init |> mapFx EventExample
-      , CutExample.init   |> mapFx CutExample
-      , TextExample.init  |> mapFx TextExample
+      ( TargetExample.init |> mapFx TargetExample
+      , EventExample.init  |> mapFx EventExample
+      , CutExample.init    |> mapFx CutExample
+      , TextExample.init   |> mapFx TextExample
       )
 
     model =
-      { copyExample = m1
-      , eventExample = m2
-      , cutExample = m3
-      , textExample = m4
+      { targetExample = m1
+      , eventExample  = m2
+      , cutExample =  m3
+      , textExample  = m4
       }
 
     fx =
@@ -65,11 +65,11 @@ init =
 
 update action model =
   case action of
-    CopyExample a ->
+    TargetExample a ->
       let
-        (m, fx) = CopyExample.update a model.copyExample
+        (m, fx) = TargetExample.update a model.targetExample
       in
-        ({ model | copyExample = m }, Effects.map CopyExample fx)
+         ({ model | targetExample = m }, Effects.map TargetExample fx)
 
     EventExample a ->
       let
@@ -111,8 +111,8 @@ view address model =
       , section []
           [ h2 [] [text "Copy text from another element"]
           , p [] [ linkToSample "Example/Copy.elm" ]
-          , CopyExample.view (forward CopyExample) model.copyExample
-          , codeSample CopyExample.code
+          , TargetExample.view (forward TargetExample) model.targetExample
+          , codeSample TargetExample.code
           ]
       , section []
           [ h2 [] [text "Cut text from another element"]
