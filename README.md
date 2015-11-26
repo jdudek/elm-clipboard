@@ -33,6 +33,10 @@ The `trigger` property of the event, which is a reference to the clicked DOM nod
 onClipboardSuccess address (ClipboardEvent identifier)
 ```
 
+## Updating Clipboard.js
+
+Bump the version number of `clipboard` in package.json and run `npm run build`.
+
 ## License
 
 MIT.

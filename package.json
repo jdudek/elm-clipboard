@@ -1,0 +1,16 @@
+{
+  "name": "elm-clipboard",
+  "version": "1.0.0",
+  "description": "Elm wrapper for Clipboard.js",
+  "scripts": {
+    "build": "browserify src/wrapper.js -o src/Native/Clipboard.js"
+  },
+  "author": "Jan Dudek <jd@jandudek.com> (http://github.com/jdudek)",
+  "license": "MIT",
+  "dependencies": {
+    "clipboard": "^1.5.5"
+  },
+  "devDependencies": {
+    "browserify": "^12.0.1"
+  }
+}
