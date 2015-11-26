@@ -106,6 +106,7 @@ view address model =
           [ h2 [] [ text "Event triggered after successful copying" ]
           , p [] [ linkToSample "Example/Event.elm" ]
           , EventExample.view (forward EventExample) model.eventExample
+          , codeSample EventExample.code
           ]
       , section []
           [ h2 [] [text "Copy text from another element"]
@@ -117,6 +118,7 @@ view address model =
           [ h2 [] [text "Cut text from another element"]
           , p [] [ linkToSample "Example/Cut.elm" ]
           , CutExample.view (forward CutExample) model.cutExample
+          , codeSample CutExample.code
           ]
       ]
 

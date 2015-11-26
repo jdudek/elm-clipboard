@@ -70,3 +70,20 @@ view address model =
             [ span [ class "octicon octicon-clippy" ] [] ]
         ]
       ]
+
+code = """
+sampleText = "elm package install evancz/elm-http 2.0.0"
+
+view address model =
+  span []
+    [ input
+        [ type' "text"
+        , value sampleText
+        ] []
+    , button
+        [ clipboardText sampleText
+        , onClipboardSuccess address ClipboardSuccess
+        ]
+        [ text "Copy" ]
+    ]
+"""

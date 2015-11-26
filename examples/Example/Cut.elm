@@ -68,3 +68,29 @@ view address model =
         ]
       ]
     ]
+
+
+code = """
+sampleText = "elm package install evancz/elm-http 2.0.0"
+
+update action model =
+  case action of
+    ClipboardSuccess _ ->
+      ({ model | text = "" }, Effects.none)
+
+view address model =
+  span []
+    [ input
+        [ type' "text"
+        , id "cut"
+        , value model.text
+        ] []
+    , button
+        [ clipboardTarget "#cut"
+        , clipboardAction Clipboard.Cut
+        , onClipboardSuccess address ClipboardSuccess
+        , class "btn"
+        ]
+        [ text "Cut" ]
+    ]
+"""
