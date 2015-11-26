@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Elm wrapper for Clipboard.js",
   "scripts": {
-    "build": "browserify src/wrapper.js -o src/Native/Clipboard.js"
+    "build": "browserify src/wrapper.js -o src/Native/Clipboard.js",
+    "docs": "elm make examples/Example.elm --output elm.js && cp examples/index.html ."
   },
   "author": "Jan Dudek <jd@jandudek.com> (http://github.com/jdudek)",
   "license": "MIT",
