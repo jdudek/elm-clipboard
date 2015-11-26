@@ -8,7 +8,8 @@
         "examples"
     ],
     "exposed-modules": [
-        "Clipboard"
+        "Clipboard",
+        "Clipboard.Attributes"
     ],
     "native-modules": true,
     "dependencies": {

@@ -1,8 +1,19 @@
-module Clipboard.Attributes where
+module Clipboard.Attributes
+  ( clipboardText
+  , clipboardTarget
+  , clipboardAction
+  , onClipboardSuccess
+  , onClipboardError
+  ) where
 
-{-| FIXME docs
+{-| This file is intended to be imported with `exposing(..)`, hence all
+functions are prefixed.
 
-@docs clipboardTarget
+@docs clipboardText, clipboardTarget, clipboardAction
+
+# Events
+
+@docs onClipboardSuccess, onClipboardError
 -}
 
 import Html exposing (Attribute)
@@ -12,19 +23,22 @@ import Json.Decode as Json exposing (Decoder, (:=))
 import String
 import Clipboard exposing (Action(..), Success, Error)
 
-{-| FIXME docs
--}
-clipboardTarget : String -> Attribute
-clipboardTarget selector =
-  attribute "data-clipboard-target" selector
-
-{-| FIXME docs
+{-| Sets the text that will be copied to clipboard when element is clicked.
 -}
 clipboardText : String -> Attribute
 clipboardText text =
   attribute "data-clipboard-text" text
 
-{-| FIXME docs
+{-| Sets the target element, from which text will be copied (or cut) to
+clipboard when element is clicked.
+
+Note you can only cut text from `input` and `textarea` elements.
+-}
+clipboardTarget : String -> Attribute
+clipboardTarget selector =
+  attribute "data-clipboard-target" selector
+
+{-| Sets an action to perform when clicked: copy or cut.
 -}
 clipboardAction : Action -> Attribute
 clipboardAction action =
@@ -33,6 +47,8 @@ clipboardAction action =
   in
     attribute "data-clipboard-action" actionName
 
+{-| Event triggered when copying/cutting was successful.
+-}
 onClipboardSuccess : Signal.Address a -> (Success -> a) -> Html.Attribute
 onClipboardSuccess address toAction =
   on
@@ -40,12 +56,17 @@ onClipboardSuccess address toAction =
     decodeSuccess
     (\success -> Signal.message address (toAction success))
 
+{-| Event triggered when copying/cutting failed.
+-}
 onClipboardError : Signal.Address a -> (Error -> a) -> Html.Attribute
 onClipboardError address toAction =
   on
     "clipboardError"
     decodeError
     (\error -> Signal.message address (toAction error))
+
+
+-- Decoders
 
 decodeSuccess : Decoder Success
 decodeSuccess =
